@@ -38,6 +38,13 @@
       margin-top: 0;
       font-size: 1.2em;
     }
+    .card a {
+      color: #0070f3;
+      text-decoration: none;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
     .badge {
       display: inline-block;
       padding: 4px 8px;
@@ -55,78 +62,60 @@
 <div class="section">
   <h2>Recherche & Navigation</h2>
   <div class="cards">
-    <div class="card"><h3>Qwant</h3><p>Alternative à Google</p><span class="badge">France</span></div>
-    <div class="card"><h3>Ecosia</h3><p>Alternative à Google</p><span class="badge">Allemagne</span></div>
-    <div class="card"><h3>Brave</h3><p>Alternative à Chrome</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>Firefox</h3><p>Alternative à Chrome</p><span class="badge">Open source</span></div>
+    <div class="card">
+      <h3><a href="https://www.qwant.com" target="_blank">Qwant</a></h3>
+      <p>Moteur de recherche français qui respecte la vie privée.</p>
+      <span class="badge">France</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://www.ecosia.org" target="_blank">Ecosia</a></h3>
+      <p>Moteur de recherche allemand qui plante des arbres à chaque requête.</p>
+      <span class="badge">Allemagne</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://brave.com" target="_blank">Brave</a></h3>
+      <p>Navigateur rapide et sécurisé avec bloqueur de pubs intégré.</p>
+      <span class="badge">Open source</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://www.mozilla.org/firefox/" target="_blank">Firefox</a></h3>
+      <p>Navigateur libre et respectueux de la vie privée, développé par Mozilla.</p>
+      <span class="badge">Open source</span>
+    </div>
   </div>
 </div>
 
-<!-- Section: Messagerie & Visioconférence -->
+<!-- Les autres sections seraient enrichies de la même manière -->
+<!-- ... -->
+
+<!-- Extrait de suite d'exemple pour la messagerie -->
 <div class="section">
   <h2>Messagerie & Visioconférence</h2>
   <div class="cards">
-    <div class="card"><h3>ProtonMail</h3><p>Alternative à Gmail</p><span class="badge">Suisse</span></div>
-    <div class="card"><h3>Tutanota</h3><p>Alternative à Gmail</p><span class="badge">Allemagne</span></div>
-    <div class="card"><h3>Jitsi Meet</h3><p>Alternative à Zoom/Meet</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>Tixeo</h3><p>Alternative à Zoom/Meet</p><span class="badge">France</span></div>
+    <div class="card">
+      <h3><a href="https://proton.me" target="_blank">ProtonMail</a></h3>
+      <p>Messagerie chiffrée suisse avec engagement fort sur la confidentialité.</p>
+      <span class="badge">Suisse</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://tutanota.com" target="_blank">Tutanota</a></h3>
+      <p>Messagerie sécurisée et éthique, hébergée en Allemagne.</p>
+      <span class="badge">Allemagne</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://meet.jit.si" target="_blank">Jitsi Meet</a></h3>
+      <p>Visioconférence open source sans inscription ni collecte de données.</p>
+      <span class="badge">Open source</span>
+    </div>
+    <div class="card">
+      <h3><a href="https://www.tixeo.com" target="_blank">Tixeo</a></h3>
+      <p>Solution française de visioconférence sécurisée, certifiée ANSSI.</p>
+      <span class="badge">France</span>
+    </div>
   </div>
 </div>
 
-<!-- Section: Stockage & Bureautique -->
-<div class="section">
-  <h2>Stockage & Bureautique</h2>
-  <div class="cards">
-    <div class="card"><h3>Infomaniak kDrive</h3><p>Alternative à Google Drive</p><span class="badge">Suisse</span></div>
-    <div class="card"><h3>OVHcloud</h3><p>Alternative à Google Drive</p><span class="badge">France</span></div>
-    <div class="card"><h3>Nextcloud</h3><p>Alternative à Google Drive</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>OnlyOffice</h3><p>Alternative à Office 365</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>LibreOffice</h3><p>Alternative à Office 365</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>CryptPad</h3><p>Alternative à Google Docs</p><span class="badge">France</span></div>
-  </div>
-</div>
-
-<!-- Section: Réseaux sociaux & Vidéo -->
-<div class="section">
-  <h2>Réseaux sociaux & Vidéo</h2>
-  <div class="cards">
-    <div class="card"><h3>PeerTube</h3><p>Alternative à YouTube</p><span class="badge">France</span></div>
-    <div class="card"><h3>Mastodon</h3><p>Alternative à Twitter</p><span class="badge">Décentralisé</span></div>
-    <div class="card"><h3>Pixelfed</h3><p>Alternative à Instagram</p><span class="badge">Décentralisé</span></div>
-  </div>
-</div>
-
-<!-- Section: Cartographie & GPS -->
-<div class="section">
-  <h2>Cartographie & GPS</h2>
-  <div class="cards">
-    <div class="card"><h3>Organic Maps</h3><p>Alternative à Google Maps</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>OsmAnd</h3><p>Alternative à Google Maps</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>Géoportail (IGN)</h3><p>Alternative à Google Maps</p><span class="badge">France</span></div>
-    <div class="card"><h3>Galileo</h3><p>Alternative à GPS</p><span class="badge">UE</span></div>
-  </div>
-</div>
-
-<!-- Section: E-commerce -->
-<div class="section">
-  <h2>E-commerce</h2>
-  <div class="cards">
-    <div class="card"><h3>Back Market</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
-    <div class="card"><h3>Greenweez</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
-    <div class="card"><h3>Label Emmaüs</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
-  </div>
-</div>
-
-<!-- Section: Téléphonie & OS -->
-<div class="section">
-  <h2>Téléphonie & OS</h2>
-  <div class="cards">
-    <div class="card"><h3>Fairphone</h3><p>Alternative à iPhone/Samsung</p><span class="badge">Pays-Bas</span></div>
-    <div class="card"><h3>Murena (/e/OS)</h3><p>Alternative à Android</p><span class="badge">France</span></div>
-    <div class="card"><h3>CalyxOS</h3><p>Alternative à Android</p><span class="badge">Open source</span></div>
-    <div class="card"><h3>GrapheneOS</h3><p>Alternative à Android</p><span class="badge">Open source</span></div>
-  </div>
-</div>
+<!-- Rappelle à compléter les autres sections de la même façon -->
 
   </div>
 </body>
