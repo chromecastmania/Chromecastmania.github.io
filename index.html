@@ -1,6 +1,133 @@
-import { Card, CardContent } from "@/components/ui/card"; import { Badge } from "@/components/ui/badge"; import { motion } from "framer-motion";
+<!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alternatives souveraines aux GAFAM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .section {
+      margin-top: 40px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.2em;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background-color: #0070f3;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.8em;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Alternatives européennes & souveraines aux GAFAM</h1><!-- Section: Recherche & Navigation -->
+<div class="section">
+  <h2>Recherche & Navigation</h2>
+  <div class="cards">
+    <div class="card"><h3>Qwant</h3><p>Alternative à Google</p><span class="badge">France</span></div>
+    <div class="card"><h3>Ecosia</h3><p>Alternative à Google</p><span class="badge">Allemagne</span></div>
+    <div class="card"><h3>Brave</h3><p>Alternative à Chrome</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>Firefox</h3><p>Alternative à Chrome</p><span class="badge">Open source</span></div>
+  </div>
+</div>
 
-const tools = [ { category: "Recherche & Navigation", items: [ { name: "Qwant", altTo: "Google", country: "France" }, { name: "Ecosia", altTo: "Google", country: "Allemagne" }, { name: "Brave", altTo: "Chrome", country: "Open source" }, { name: "Firefox", altTo: "Chrome", country: "Open source" }, ], }, { category: "Messagerie & Visioconférence", items: [ { name: "ProtonMail", altTo: "Gmail", country: "Suisse" }, { name: "Tutanota", altTo: "Gmail", country: "Allemagne" }, { name: "Jitsi Meet", altTo: "Zoom/Meet", country: "Open source" }, { name: "Tixeo", altTo: "Zoom/Meet", country: "France" }, ], }, { category: "Stockage & Bureautique", items: [ { name: "Infomaniak kDrive", altTo: "Google Drive", country: "Suisse" }, { name: "OVHcloud", altTo: "Google Drive", country: "France" }, { name: "Nextcloud", altTo: "Google Drive", country: "Open source" }, { name: "OnlyOffice", altTo: "Office 365", country: "Open source" }, { name: "LibreOffice", altTo: "Office 365", country: "Open source" }, { name: "CryptPad", altTo: "Google Docs", country: "France" }, ], }, { category: "Réseaux sociaux & Vidéo", items: [ { name: "PeerTube", altTo: "YouTube", country: "France" }, { name: "Mastodon", altTo: "Twitter", country: "Décentralisé" }, { name: "Pixelfed", altTo: "Instagram", country: "Décentralisé" }, ], }, { category: "Cartographie & GPS", items: [ { name: "Organic Maps", altTo: "Google Maps", country: "Open source" }, { name: "OsmAnd", altTo: "Google Maps", country: "Open source" }, { name: "Géoportail (IGN)", altTo: "Google Maps", country: "France" }, { name: "Galileo", altTo: "GPS", country: "UE" }, ], }, { category: "E-commerce", items: [ { name: "Back Market", altTo: "Amazon", country: "France" }, { name: "Greenweez", altTo: "Amazon", country: "France" }, { name: "Label Emmaüs", altTo: "Amazon", country: "France" }, ], }, { category: "Téléphonie & OS", items: [ { name: "Fairphone", altTo: "iPhone/Samsung", country: "Pays-Bas" }, { name: "Murena (/e/OS)", altTo: "Android", country: "France" }, { name: "CalyxOS", altTo: "Android", country: "Open source" }, { name: "GrapheneOS", altTo: "Android", country: "Open source" }, ], }, ];
+<!-- Section: Messagerie & Visioconférence -->
+<div class="section">
+  <h2>Messagerie & Visioconférence</h2>
+  <div class="cards">
+    <div class="card"><h3>ProtonMail</h3><p>Alternative à Gmail</p><span class="badge">Suisse</span></div>
+    <div class="card"><h3>Tutanota</h3><p>Alternative à Gmail</p><span class="badge">Allemagne</span></div>
+    <div class="card"><h3>Jitsi Meet</h3><p>Alternative à Zoom/Meet</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>Tixeo</h3><p>Alternative à Zoom/Meet</p><span class="badge">France</span></div>
+  </div>
+</div>
 
-export default function AlternativesPage() { return ( <div className="p-6 max-w-5xl mx-auto"> <h1 className="text-4xl font-bold mb-6 text-center">Alternatives européennes & souveraines aux GAFAM</h1> <div className="grid gap-6"> {tools.map((section, index) => ( <motion.div key={section.category} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} > <h2 className="text-2xl font-semibold mb-2">{section.category}</h2> <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"> {section.items.map((tool) => ( <Card key={tool.name} className="rounded-2xl shadow-md"> <CardContent className="p-4"> <h3 className="text-lg font-bold mb-1">{tool.name}</h3> <p className="text-sm text-gray-600">Alternative à : {tool.altTo}</p> <Badge className="mt-2">{tool.country}</Badge> </CardContent> </Card> ))} </div> </motion.div> ))} </div> </div> ); }
+<!-- Section: Stockage & Bureautique -->
+<div class="section">
+  <h2>Stockage & Bureautique</h2>
+  <div class="cards">
+    <div class="card"><h3>Infomaniak kDrive</h3><p>Alternative à Google Drive</p><span class="badge">Suisse</span></div>
+    <div class="card"><h3>OVHcloud</h3><p>Alternative à Google Drive</p><span class="badge">France</span></div>
+    <div class="card"><h3>Nextcloud</h3><p>Alternative à Google Drive</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>OnlyOffice</h3><p>Alternative à Office 365</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>LibreOffice</h3><p>Alternative à Office 365</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>CryptPad</h3><p>Alternative à Google Docs</p><span class="badge">France</span></div>
+  </div>
+</div>
 
+<!-- Section: Réseaux sociaux & Vidéo -->
+<div class="section">
+  <h2>Réseaux sociaux & Vidéo</h2>
+  <div class="cards">
+    <div class="card"><h3>PeerTube</h3><p>Alternative à YouTube</p><span class="badge">France</span></div>
+    <div class="card"><h3>Mastodon</h3><p>Alternative à Twitter</p><span class="badge">Décentralisé</span></div>
+    <div class="card"><h3>Pixelfed</h3><p>Alternative à Instagram</p><span class="badge">Décentralisé</span></div>
+  </div>
+</div>
+
+<!-- Section: Cartographie & GPS -->
+<div class="section">
+  <h2>Cartographie & GPS</h2>
+  <div class="cards">
+    <div class="card"><h3>Organic Maps</h3><p>Alternative à Google Maps</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>OsmAnd</h3><p>Alternative à Google Maps</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>Géoportail (IGN)</h3><p>Alternative à Google Maps</p><span class="badge">France</span></div>
+    <div class="card"><h3>Galileo</h3><p>Alternative à GPS</p><span class="badge">UE</span></div>
+  </div>
+</div>
+
+<!-- Section: E-commerce -->
+<div class="section">
+  <h2>E-commerce</h2>
+  <div class="cards">
+    <div class="card"><h3>Back Market</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
+    <div class="card"><h3>Greenweez</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
+    <div class="card"><h3>Label Emmaüs</h3><p>Alternative à Amazon</p><span class="badge">France</span></div>
+  </div>
+</div>
+
+<!-- Section: Téléphonie & OS -->
+<div class="section">
+  <h2>Téléphonie & OS</h2>
+  <div class="cards">
+    <div class="card"><h3>Fairphone</h3><p>Alternative à iPhone/Samsung</p><span class="badge">Pays-Bas</span></div>
+    <div class="card"><h3>Murena (/e/OS)</h3><p>Alternative à Android</p><span class="badge">France</span></div>
+    <div class="card"><h3>CalyxOS</h3><p>Alternative à Android</p><span class="badge">Open source</span></div>
+    <div class="card"><h3>GrapheneOS</h3><p>Alternative à Android</p><span class="badge">Open source</span></div>
+  </div>
+</div>
+
+  </div>
+</body>
+</html>
