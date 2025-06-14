@@ -711,20 +711,31 @@
             let totalQuestions = 0;
             let answeredQuestions = 0;
             
+            // Debug: Let's see what keys we have
+            console.log('All response keys:', Object.keys(appState.responses));
+            console.log('All rooms:', appState.rooms);
+            
             // Count anomalies and stats
             Object.keys(appState.responses).forEach(key => {
+                console.log('Processing key:', key);
                 totalQuestions++;
                 if (appState.responses[key]) {
                     answeredQuestions++;
                     if (appState.responses[key] === 'oui') {
                         // Key format: room-X-categoryIndex-questionIndex
                         const keyParts = key.split('-');
-                        if (keyParts.length === 4 && keyParts[0] === 'room') {
+                        console.log('Key parts:', keyParts);
+                        
+                        if (keyParts.length >= 4 && keyParts[0] === 'room') {
                             const roomId = `${keyParts[0]}-${keyParts[1]}`; // room-X
+                            console.log('Constructed roomId:', roomId);
+                            
                             const categoryIndex = parseInt(keyParts[2]);
                             const questionIndex = parseInt(keyParts[3]);
                             
                             const room = appState.rooms.find(r => r.id === roomId);
+                            console.log('Found room:', room);
+                            
                             const category = categories[categoryIndex];
                             
                             if (room && category && category.questions[questionIndex]) {
@@ -736,6 +747,8 @@
                                     question: question,
                                     photo: appState.photos[key]
                                 });
+                            } else {
+                                console.log('Missing data - room:', !!room, 'category:', !!category, 'question:', !!(category && category.questions[questionIndex]));
                             }
                         }
                     }
