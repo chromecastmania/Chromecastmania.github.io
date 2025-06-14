@@ -717,11 +717,12 @@
                 if (appState.responses[key]) {
                     answeredQuestions++;
                     if (appState.responses[key] === 'oui') {
+                        // Key format: room-X-categoryIndex-questionIndex
                         const keyParts = key.split('-');
-                        if (keyParts.length >= 3) {
-                            const roomId = keyParts.slice(0, -2).join('-'); // Reconstruct room ID
-                            const categoryIndex = parseInt(keyParts[keyParts.length - 2]);
-                            const questionIndex = parseInt(keyParts[keyParts.length - 1]);
+                        if (keyParts.length === 4 && keyParts[0] === 'room') {
+                            const roomId = `${keyParts[0]}-${keyParts[1]}`; // room-X
+                            const categoryIndex = parseInt(keyParts[2]);
+                            const questionIndex = parseInt(keyParts[3]);
                             
                             const room = appState.rooms.find(r => r.id === roomId);
                             const category = categories[categoryIndex];
