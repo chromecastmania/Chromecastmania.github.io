@@ -704,56 +704,71 @@
             }
         }
 
-        function generateReport() {
-            showStep('step-report');
-            
-            let anomalies = [];
-            let totalQuestions = 0;
-            let answeredQuestions = 0;
-            
-            // Debug: Let's see what keys we have
-            console.log('All response keys:', Object.keys(appState.responses));
-            console.log('All rooms:', appState.rooms);
-            
-            // Count anomalies and stats
-            Object.keys(appState.responses).forEach(key => {
-                console.log('Processing key:', key);
-                totalQuestions++;
-                if (appState.responses[key]) {
-                    answeredQuestions++;
-                    if (appState.responses[key] === 'oui') {
-                        // Key format: room-X-categoryIndex-questionIndex
-                        const keyParts = key.split('-');
-                        console.log('Key parts:', keyParts);
-                        
-                        if (keyParts.length >= 4 && keyParts[0] === 'room') {
-                            const roomId = `${keyParts[0]}-${keyParts[1]}`; // room-X
-                            console.log('Constructed roomId:', roomId);
-                            
-                            const categoryIndex = parseInt(keyParts[2]);
-                            const questionIndex = parseInt(keyParts[3]);
-                            
-                            const room = appState.rooms.find(r => r.id === roomId);
-                            console.log('Found room:', room);
-                            
-                            const category = categories[categoryIndex];
-                            
-                            if (room && category && category.questions[questionIndex]) {
-                                const question = category.questions[questionIndex];
-                                
-                                anomalies.push({
-                                    room: room.name,
-                                    category: category.name,
-                                    question: question,
-                                    photo: appState.photos[key]
-                                });
-                            } else {
-                                console.log('Missing data - room:', !!room, 'category:', !!category, 'question:', !!(category && category.questions[questionIndex]));
-                            }
-                        }
+function generateReport() {
+    showStep('step-report');
+
+    let anomalies = [];
+    let totalQuestions = 0;
+    let answeredQuestions = 0;
+
+    // Debug
+    console.log('All response keys:', Object.keys(appState.responses));
+    console.log('All rooms:', appState.rooms);
+
+    // Analyse des réponses
+    Object.keys(appState.responses).forEach(key => {
+        console.log('Processing key:', key);
+        totalQuestions++;
+
+        const response = appState.responses[key];
+        if (response) {
+            answeredQuestions++;
+
+            if (response === 'oui') {
+                // Format attendu: room-X-categoryIndex-questionIndex
+                const keyParts = key.split('-');
+                console.log('Key parts:', keyParts);
+
+                if (keyParts.length >= 4 && keyParts[0] === 'room') {
+                    const roomId = `${keyParts[0]}-${keyParts[1]}`; // room-X
+                    const categoryIndex = parseInt(keyParts[2]);
+                    const questionIndex = parseInt(keyParts[3]);
+
+                    console.log('Constructed roomId:', roomId);
+
+                    const room = appState.rooms.find(r => r.id === roomId);
+                    const category = categories[categoryIndex];
+
+                    // Vérification de la validité
+                    if (!room) {
+                        console.warn(`Room not found: ${roomId}`);
+                        return;
                     }
+
+                    if (!category) {
+                        console.warn(`Category not found: ${categoryIndex}`);
+                        return;
+                    }
+
+                    if (!category.questions || !category.questions[questionIndex]) {
+                        console.warn(`Question not found at index ${questionIndex} in category ${categoryIndex}`);
+                        return;
+                    }
+
+                    const question = category.questions[questionIndex];
+
+                    anomalies.push({
+                        room: room.name,
+                        category: category.name,
+                        question: question,
+                        photo: appState.photos[key]
+                    });
+                } else {
+                    console.warn(`Invalid key format: ${key}`);
                 }
-            });
+            }
+        }
+    });
             
             // Generate summary
             const summaryHtml = `
