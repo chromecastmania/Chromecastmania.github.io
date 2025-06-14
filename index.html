@@ -859,25 +859,29 @@ function generateReport() {
             let totalQuestions = 0;
             let answeredQuestions = 0;
             
-            Object.keys(appState.responses).forEach(key => {
-                totalQuestions++;
-                if (appState.responses[key]) {
-                    answeredQuestions++;
-                    if (appState.responses[key] === 'oui') {
-                        const [roomId, categoryIndex, questionIndex] = key.split('-');
-                        const room = appState.rooms.find(r => r.id === roomId);
-                        const category = categories[parseInt(categoryIndex)];
-                        const question = category.questions[parseInt(questionIndex)];
-                        
-                        anomalies.push({
-                            room: room.name,
-                            category: category.name,
-                            question: question,
-                            photo: appState.photos[key]
-                        });
-                    }
-                }
+Object.keys(appState.responses).forEach(key => {
+    totalQuestions++;
+    if (appState.responses[key]) {
+        answeredQuestions++;
+        if (appState.responses[key] === 'oui') {
+            const parts = key.split('-');
+            const roomId = `${parts[0]}-${parts[1]}`;
+            const categoryIndex = parseInt(parts[2]);
+            const questionIndex = parseInt(parts[3]);
+
+            const room = appState.rooms.find(r => r.id === roomId);
+            const category = categories[categoryIndex];
+            const question = category.questions[questionIndex];
+
+            anomalies.push({
+                room: room?.name || '(inconnu)',
+                category: category?.name || '(catégorie inconnue)',
+                question: question || '(question inconnue)',
+                photo: appState.photos[key]
             });
+        }
+    }
+});
             
             addText('RÉSUMÉ DE L\'INSPECTION', 14, true);
             addText(`Anomalies détectées: ${anomalies.length}`, 12, true);
