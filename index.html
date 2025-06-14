@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inspection Logement - Prélivraison</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -767,8 +768,136 @@
         }
 
         function generatePDF() {
-            // En mode production, cela générerait un vrai PDF
-            alert('Fonctionnalité PDF en cours de développement.\nVous pouvez pour l\'instant faire une capture d\'écran du rapport.');
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Configuration
+            const pageWidth = doc.internal.pageSize.width;
+            const margin = 20;
+            let yPosition = margin;
+            
+            // Helper function to add text with line breaks
+            function addText(text, fontSize = 12, isBold = false) {
+                doc.setFontSize(fontSize);
+                if (isBold) {
+                    doc.setFont(undefined, 'bold');
+                } else {
+                    doc.setFont(undefined, 'normal');
+                }
+                
+                const lines = doc.splitTextToSize(text, pageWidth - 2 * margin);
+                
+                // Check if we need a new page
+                if (yPosition + (lines.length * fontSize * 0.5) > doc.internal.pageSize.height - margin) {
+                    doc.addPage();
+                    yPosition = margin;
+                }
+                
+                doc.text(lines, margin, yPosition);
+                yPosition += lines.length * fontSize * 0.5 + 5;
+            }
+            
+            // Header
+            addText('RAPPORT D\'INSPECTION DE LOGEMENT', 16, true);
+            addText('Visite de prélivraison', 12);
+            addText(`Date: ${new Date().toLocaleDateString('fr-FR')}`, 10);
+            yPosition += 10;
+            
+            // Configuration du logement
+            addText('CONFIGURATION DU LOGEMENT', 14, true);
+            addText(`Nombre de pièces: ${appState.rooms.length}`, 12);
+            
+            appState.rooms.forEach(room => {
+                addText(`• ${room.name}:`, 12, true);
+                addText(`  - Fenêtres: ${room.windows}, Portes: ${room.doors}`, 11);
+                addText(`  - Sol: ${room.floorType}`, 11);
+                addText(`  - Radiateur: ${room.hasRadiator ? 'Oui' : 'Non'}, Plomberie: ${room.hasPlumbing ? 'Oui' : 'Non'}`, 11);
+            });
+            
+            yPosition += 10;
+            
+            // Statistiques
+            let anomalies = [];
+            let totalQuestions = 0;
+            let answeredQuestions = 0;
+            
+            Object.keys(appState.responses).forEach(key => {
+                totalQuestions++;
+                if (appState.responses[key]) {
+                    answeredQuestions++;
+                    if (appState.responses[key] === 'oui') {
+                        const [roomId, categoryIndex, questionIndex] = key.split('-');
+                        const room = appState.rooms.find(r => r.id === roomId);
+                        const category = categories[parseInt(categoryIndex)];
+                        const question = category.questions[parseInt(questionIndex)];
+                        
+                        anomalies.push({
+                            room: room.name,
+                            category: category.name,
+                            question: question,
+                            photo: appState.photos[key]
+                        });
+                    }
+                }
+            });
+            
+            addText('RÉSUMÉ DE L\'INSPECTION', 14, true);
+            addText(`Anomalies détectées: ${anomalies.length}`, 12, true);
+            addText(`Éléments conformes: ${answeredQuestions - anomalies.length}`, 12, true);
+            addText(`Progression: ${answeredQuestions}/${totalQuestions} questions répondues (${Math.round((answeredQuestions/totalQuestions)*100)}%)`, 12);
+            
+            yPosition += 10;
+            
+            // Détail des anomalies
+            if (anomalies.length > 0) {
+                addText('DÉTAIL DES ANOMALIES', 14, true);
+                
+                anomalies.forEach((anomaly, index) => {
+                    addText(`${index + 1}. ${anomaly.room} - ${anomaly.category}`, 12, true);
+                    addText(`${anomaly.question}`, 11);
+                    
+                    // Add photo if available
+                    if (anomaly.photo) {
+                        try {
+                            // Check if we need a new page for the image
+                            if (yPosition + 60 > doc.internal.pageSize.height - margin) {
+                                doc.addPage();
+                                yPosition = margin;
+                            }
+                            
+                            // Add image (resize to fit page width)
+                            const imgWidth = Math.min(100, pageWidth - 2 * margin);
+                            const imgHeight = 60; // Fixed height
+                            
+                            doc.addImage(anomaly.photo, 'JPEG', margin, yPosition, imgWidth, imgHeight);
+                            yPosition += imgHeight + 10;
+                        } catch (e) {
+                            addText('[Photo non disponible dans le PDF]', 10);
+                        }
+                    }
+                    
+                    yPosition += 5;
+                });
+            } else {
+                addText('AUCUNE ANOMALIE DÉTECTÉE! 🎉', 14, true);
+                addText('Félicitations, votre logement semble être en parfait état.', 12);
+            }
+            
+            // Footer
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'normal');
+                doc.text(`Page ${i}/${pageCount}`, pageWidth - margin - 20, doc.internal.pageSize.height - 10);
+                doc.text('Rapport généré par l\'application Inspection Logement', margin, doc.internal.pageSize.height - 10);
+            }
+            
+            // Generate filename with date
+            const fileName = `inspection-logement-${new Date().toISOString().split('T')[0]}.pdf`;
+            
+            // Save the PDF
+            doc.save(fileName);
         }
 
         function restartInspection() {
